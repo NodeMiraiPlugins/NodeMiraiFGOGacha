@@ -6,6 +6,7 @@ const getGachaPools = require('./src/getGachaPools');
 const downloadIcons = require('./src/downloadIcons');
 
 const baseDir = path.resolve(__dirname, './statics');
+const dbPath = path.resolve(__dirname, './statics/db.json');
 
 const mooncellBackgroundUrl = 'https://fgo.wiki/images/bg/bg-mc-icon.png';
 const mooncellBackgroundPath = path.resolve(__dirname, './statics/bg-mc-icon.png');
@@ -24,6 +25,10 @@ const init = async (log = false, overwrite = false) => {
     fs.mkdirSync(path.resolve(baseDir, 'icons'));
     fs.mkdirSync(path.resolve(baseDir, 'gacha'));
     info('Created statics/ statics/icons/ statics/gacha/');
+  }
+  if (!fs.existsSync(dbPath)) {
+    fs.writeFileSync(dbPath, '{}');
+    info('Create db.json');
   }
   await download(mooncellBackgroundUrl, mooncellBackgroundPath, overwrite);
   info(`Downloaded bg-mc-icon.png`);
