@@ -4,6 +4,7 @@ const download = require('./src/download');
 
 const getGachaPools = require('./src/getGachaPools');
 const downloadIcons = require('./src/downloadIcons');
+const gacha = require('./src/gacha');
 
 const baseDir = path.resolve(__dirname, './statics');
 const dbPath = path.resolve(__dirname, './statics/db.json');
@@ -43,6 +44,7 @@ const init = async (log = false, overwrite = false) => {
   info(`Downloaded resources`);
   fs.writeFileSync(path.resolve(__dirname, '.init'), '');
   console.log('[FGOGacha] Updated pools');
+  gacha(1);
 };
 
 module.exports = init;
