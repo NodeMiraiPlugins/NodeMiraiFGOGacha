@@ -24,11 +24,17 @@ const saveDb = () => {
  * @description NodeMiraiSDK FGO Gacha plugin
  * @param { object } config
  * @param { number } [config.cooldown] (ms, default: 60000) gacha cooldown
- * @param { boolean } [config.allowGroup] (default: true) allow gacha in group talking
- * @param { boolean } [config.allowPrivate] (default: false) allow gacha in private talking
+ * @param { boolean } [config.allowGroup] (default: true) allow gacha in group chatting
+ * @param { boolean } [config.allowPrivate] (default: false) allow gacha in private chatting
  * @param { boolean } [config.recall] (default: true) recall result or not
  * @param { number } [config.recallDelay] (default: 30000) recall delay
  * @param { string } [config.prefix] (default: '') command prefix
+ * @param { boolean } [config.groupWhitelistMode] use whitelist mode for specific group
+ * @param { array } [config.groupBlacklist] blacklist groups
+ * @param { array } [config.groupWhitelist] whitelist groups
+ * @param { boolean } [config.qqWhitelistMode] use whitelist mode for specific qq
+ * @param { array } [config.qqBlacklist] blacklist qqs
+ * @param { array } [config.qqWhitelist] whitelist qqs
  * @param { object } [config.hints] hint texts
  * @param { string } [config.hints.listPools] hint for 查询卡池
  * @param { string } [config.hints.invalidPoolId] hint for 设置卡池 getting invalid poolid
@@ -41,6 +47,12 @@ const FGOGacha = ({
   recall = true,
   recallDelay = 30000,
   prefix = '',
+  groupWhitelistMode = false,
+  groupBlacklist = [],
+  groupWhitelist = [],
+  qqWhitelistMode = false,
+  qqBlacklist = [],
+  qqWhitelist = [],
   hints: {
     listPools: listPools = '现在数据库里有这些卡池哦~',
     invalidPoolId: invalidPoolId = '卡池编号不正确哦~',
@@ -60,6 +72,14 @@ const FGOGacha = ({
   const callback = async (message, bot) => {
     const { sender, messageChain, reply } = message;
     const { group } = sender;
+    if (qqWhitelistMode) {
+      if (!qqWhitelist.includes(sender.id)) return;
+    }
+    if (qqBlacklist.includes(sender.id)) return;
+    if (group && groupWhitelistMode) {
+      if (!groupWhitelist.includes(group.id)) return;
+    }
+    if (group && groupBlacklist.includes(group.id)) return;
     if (!db.group) db.group = {};
     if (!db.sender) db.sender = {};
     if (!group && !allowPrivate) return;
