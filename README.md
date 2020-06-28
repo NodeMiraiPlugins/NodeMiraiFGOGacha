@@ -48,3 +48,11 @@ FGOGacha.update();
 FGOGacha.init();
 
 ```
+
+## 关于卡池
+
+- `node-mirai-fgo-gacha` 采用的是 [这个页面](https://fgo.wiki/w/%E6%8A%BD%E5%8D%A1%E6%A8%A1%E6%8B%9F%E5%99%A8) 所展示的卡池(不含福袋)
+
+- `node-mirai-fgo-gacha` 会在初次使用时自动初始化卡池, 下载资源文件(总计`10MB+`), 此后必须通过 `FGOGacha.update()` 方法手动更新, 如果已有的资源出现错误, 可以通过 `FGOGacha.init()` 方法重新初始化
+
+- 随机和保底机制纯属猜测, 与官方不一定一致, 因此结果没有参考价值, 仅供娱乐, 请勿当真
