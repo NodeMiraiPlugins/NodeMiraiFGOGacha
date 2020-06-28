@@ -16,6 +16,7 @@ const mooncellBackgroundPath = path.resolve(__dirname, './statics/bg-mc-icon.png
  */
 const init = async (log = false, overwrite = false) => {
   const info = (...t) => log && console.log(`[init]`, ...t);
+  info('Ready to init');
   if (!fs.existsSync(baseDir)) {
     fs.mkdirSync(baseDir);
     fs.mkdirSync(path.resolve(baseDir, 'icons'));
