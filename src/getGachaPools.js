@@ -42,7 +42,7 @@ const getGachaPools = async (logger = () => {}) => {
     rawStrList.shift();
     rawStrList.forEach(line => {
       const [ type, star, weight, display, ids] = line.split('\t');
-      const id = ids.replace(/\'/g, '').split(', ').filter(i => i.length).map(i => parseInt(i));
+      const id = ids.replace(/\'/g, '').split(', ').filter(i => i.length).map(i => parseInt(i)).filter(i => i);
       gacha.push({
         type,
         star: parseInt(star),
