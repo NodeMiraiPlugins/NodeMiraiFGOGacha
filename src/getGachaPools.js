@@ -19,10 +19,10 @@ const getGachaPools = async (logger = () => {}) => {
   const gachaData = [];
   $('p a').each((i, ele) => {
     const title = $(ele).prop('title');
-    if (title.endsWith('模拟器') && !title.includes('福袋') && !title.includes('剧情')) {
+    if (title.endsWith('模拟器') && !title.includes('福袋')) {
       const href = $(ele).prop('href');
       const pool = {
-        title: title.replace(/(详情)?\/模拟器/, ''),
+        title: title.replace(/(详情)?\/模拟器/, '').replace('模拟器', ''),
         href: 'https://fgo.wiki' + href,
       };
       pools.push(pool);
