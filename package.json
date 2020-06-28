@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
-    "node-mirai-sdk": "^0.2.0"
+    "node-mirai-sdk": "^0.2.0",
+    "progress": "^2.0.3"
   }
 }

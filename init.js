@@ -29,6 +29,7 @@ const init = async (log = false, overwrite = false) => {
   info(`Downloaded bg-mc-icon.png`);
   await getGachaPools(info);
   await downloadIcons(info, overwrite);
+  info(`Downloaded resources`);
 };
 
 module.exports = init;
