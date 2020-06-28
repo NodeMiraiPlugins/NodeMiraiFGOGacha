@@ -6,7 +6,12 @@ const cheerio = require('cheerio');
 
 const poolsUrl = 'https://fgo.wiki/w/%E6%8A%BD%E5%8D%A1%E6%A8%A1%E6%8B%9F%E5%99%A8';
 
-const getGachaPools = async () => {
+/**
+ * @method getGachaPools
+ * @description parse pages and download pools, gacha infos and icon infos
+ * @param { function } logger logger
+ */
+const getGachaPools = async (logger = () => {}) => {
   const poolsPage = await axios.get(poolsUrl);
   const $ = cheerio.load(poolsPage.data);
   const pools = [];
@@ -23,6 +28,11 @@ const getGachaPools = async () => {
     }
   });
   fs.writeFileSync(path.resolve(__dirname, '../statics/pools.json'), JSON.stringify(pools, null, 2));
+  logger('Save pools.json');
+  const icons = {
+    svtIcons: [],
+    cftIcons: [],
+  };
   for (let pool of pools) {
     const gacha = [];
     const { data } = await axios.get(pool.href);
@@ -40,8 +50,17 @@ const getGachaPools = async () => {
       });
     });
     gachaData.push(gacha);
+    if (icons.svtIcons.length + icons.cftIcons.length === 0) {
+      const svtIconList = data.match(/svt_icons\s=\s(\[.*\])/)[1];
+      icons.svtIcons = JSON.parse(svtIconList);
+      const cftIconList = data.match(/cft_icons\s=\s(\[.*\])/)[1];
+      icons.cftIcons = JSON.parse(cftIconList);
+    }
   }
   fs.writeFileSync(path.resolve(__dirname, '../statics/gacha.json'), JSON.stringify(gachaData, null, 2));
+  logger('Save gacha.json');
+  fs.writeFileSync(path.resolve(__dirname, '../statics/icons.json'), JSON.stringify(icons, null, 2));
+  logger('Save icons.json');
 };
 
 module.exports = getGachaPools;
