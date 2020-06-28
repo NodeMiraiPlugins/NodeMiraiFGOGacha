@@ -15,14 +15,22 @@ index.js
 const FGOGacha = require('node-mirai-fgo-gacha');
 
 const bot = new Mirai({/* ... */});
+
+// 配置参数均为可选，以下列出的是默认参数值
 bot.use(FGOGacha({
-  cooldown: 60000,     // 扭蛋的冷却时间，单位 ms
-  allowGroup: true,    // 群聊扭蛋开关
-  allowPrivate: false, // 私聊扭蛋开关
-  recall: true,        // 在指定时间后撤回扭蛋图片以防刷屏
-  recallDelay: 30000,  // 指定撤回延迟，时间 5000 - 60000
-  prefix: ``,          // 指令前缀，可用于避免误触发
-  hints: {             // 一些可配置的提示
+  cooldown: 60000,           // 扭蛋的冷却时间，单位 ms
+  allowGroup: true,          // 群聊扭蛋开关
+  allowPrivate: false,       // 私聊扭蛋开关
+  recall: true,              // 在指定时间后撤回扭蛋图片以防刷屏
+  recallDelay: 30000,        // 指定撤回延迟，时间 5000 - 60000
+  prefix: ``,                // 指令前缀，可用于避免误触发
+  groupWhitelistMode: false, // 群聊白名单模式快关
+  groupBlacklist: [],        // 群聊黑名单
+  groupWhitelist: [],        // 群聊白名单
+  qqWhitelistMode: false,    // qq 白名单开关
+  qqBlacklist: [],           // qq 黑名单
+  qqWhitelist: [],           // qq 白名单
+  hints: {                   // 一些可配置的提示
     listPools: `现在数据库里有这些卡池哦~`,
     invalidPoolId: `卡池编号不正确哦~`,
     setPoolSuccess: `设置卡池成功`,
