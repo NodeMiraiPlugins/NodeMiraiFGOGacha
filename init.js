@@ -22,9 +22,15 @@ const init = async (log = false, overwrite = false) => {
   info('Ready to init');
   if (!fs.existsSync(baseDir)) {
     fs.mkdirSync(baseDir);
+    info('Created statics/');
+  }
+  if (!fs.existsSync(path.resolve(baseDir, 'icons'))) {
     fs.mkdirSync(path.resolve(baseDir, 'icons'));
+    info('Created statics/icons/');
+  }
+  if (!fs.existsSync(path.resolve(baseDir, 'gacha'))) {
     fs.mkdirSync(path.resolve(baseDir, 'gacha'));
-    info('Created statics/ statics/icons/ statics/gacha/');
+    info('Created statics/gacha/');
   }
   if (!fs.existsSync(dbPath)) {
     fs.writeFileSync(dbPath, '{}');
