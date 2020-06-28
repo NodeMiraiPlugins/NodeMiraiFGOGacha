@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const download = require('./src/download');
+
 const getGachaPools = require('./src/getGachaPools');
+const downloadIcons = require('./src/downloadIcons');
 
 const baseDir = path.resolve(__dirname, './statics');
 
@@ -26,6 +28,7 @@ const init = async (log = false, overwrite = false) => {
   await download(mooncellBackgroundUrl, mooncellBackgroundPath, overwrite);
   info(`Downloaded bg-mc-icon.png`);
   await getGachaPools(info);
+  await downloadIcons(info, overwrite);
 };
 
 module.exports = init;
