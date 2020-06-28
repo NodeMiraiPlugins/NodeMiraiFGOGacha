@@ -12,6 +12,7 @@ const poolsUrl = 'https://fgo.wiki/w/%E6%8A%BD%E5%8D%A1%E6%A8%A1%E6%8B%9F%E5%99%
  * @param { function } logger logger
  */
 const getGachaPools = async (logger = () => {}) => {
+  logger(`Downloading ${poolsUrl} for pools.json`);
   const poolsPage = await axios.get(poolsUrl);
   const $ = cheerio.load(poolsPage.data);
   const pools = [];
@@ -29,6 +30,7 @@ const getGachaPools = async (logger = () => {}) => {
   });
   fs.writeFileSync(path.resolve(__dirname, '../statics/pools.json'), JSON.stringify(pools, null, 2));
   logger('Saved pools.json');
+  logger(`Downloading pools for gacha.json and icons.json`);
   const icons = {
     svtIcons: [],
     cftIcons: [],
