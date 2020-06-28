@@ -6,6 +6,7 @@ const { Image, Plain } = Mirai.MessageComponent;
 
 const init = require('./init');
 const gacha = require('./src/gacha');
+const generateGachaPng = require('./src/generateGachaPng');
 
 if (!fs.existsSync(path.resolve(__dirname, '.init'))) {
   init(true, true);
@@ -40,9 +41,15 @@ const FGOGacha = ({
     listPools: listPools = '现在数据库里有这些卡池哦~',
     invalidPoolId: invalidPoolId = '卡池编号不正确哦~',
     setPoolSuccess: setPoolSuccess = '设置卡池成功',
+    poolNotSet: poolNotSet = `尚未设置卡池，无法进行十连`,
   } = {},
 }) => {
   const gachaCooldown = [];
+  /**
+   * @method callback
+   * @param { object } message message object
+   * @param { Mirai } bot bot instance
+   */
   const callback = async (message, bot) => {
     const { sender, messageChain, reply } = message;
     const { group } = sender;
@@ -50,6 +57,11 @@ const FGOGacha = ({
     if (!db.sender) db.sender = {};
     if (!group && !allowPrivate) return;
     if (group && !allowGroup) return;
+    if (group) {
+      if (!db.group[group.id]) db.group[group.id] = {};
+    } else {
+      if (!db.sender[sender.id]) db.sender[sender.id] = {};
+    }
     let msg = '';
     messageChain.forEach(chain => {
       if (chain.type === 'Plain') msg += Plain.value(chain);
@@ -66,17 +78,28 @@ const FGOGacha = ({
     }
     if (msg.startsWith(prefix + '设置卡池')) {
       const poolId = parseInt(msg.substr(prefix.length + 4));
-      if (isNaN(poolId)) return reply(invalidPoolId);
-      if (poolId > gacha.poolCounts) return reply(invalidPoolId);
+      if (isNaN(poolId)) return reply(invalidPoolId + `发送"${prefix}查询卡池"可以查询已有卡池`);
+      if (poolId > gacha.poolCounts || poolId < 1) return reply(invalidPoolId + `发送"${prefix}查询卡池"可以查询已有卡池`);
       if (group) {
-        if (!db.group[group.id]) db.group[group.id] = {};
         db.group[group.id].selectedPool = poolId;
       } else {
-        if (!db.sender[sender.id]) db.sender[sender.id] = {};
         db.sender[sender.id].selectedPool = poolId;
       }
       saveDb();
       return reply(setPoolSuccess);
+    }
+    if (msg === prefix + '十连召唤' || msg === prefix + '十一连召唤') {
+      const total = msg === prefix + '十一连召唤' ? 11 : 10;
+      const poolId = group ? db.group[group.id].selectedPool : db.sender[sender.id].selectedPool;
+      if (!poolId) return reply(poolNotSet + `发送"${prefix}设置卡池 编号"可以设置卡池`);
+      const result = gacha(poolId, total);
+      const imgPath = await generateGachaPng(result);
+      await bot.sendImageMessage(imgPath, message);
+      gachaCooldown.push(sender.id);
+      setTimeout(() => {
+        gachaCooldown.shift();
+      }, cooldown);
+      return fs.unlinkSync(imgPath);
     }
   };
   return {
