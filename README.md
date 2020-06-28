@@ -2,6 +2,8 @@
 
 [node-mirai-sdk](https://github.com/RedBeanN/node-mirai) 的 FGO 模拟扭蛋插件
 
+卡池内容、概率、资源素材等均来自 [Mooncell](https://fgo.wiki/)，如有余力请多多支持 Mooncell
+
 ## Usage
 
 `NodeMiraiSDK` 的配置请参考 [node-mirai-sdk](https://github.com/RedBeanN/node-mirai)
