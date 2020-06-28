@@ -6,6 +6,12 @@ if (!fs.existsSync(path.resolve(__dirname, '.init'))) {
   init(true, true);
 }
 
+const dbPath = path.resolve(__dirname, './statics/db.json');
+const db = fs.writeFileSync(dbPath);
+const saveDb = () => {
+  fs.writeFileSync(dbPath, JSON.stringify(db));
+};
+
 /**
  * @method FGOGacha
  * @description NodeMiraiSDK FGO Gacha plugin
