@@ -104,7 +104,7 @@ const FGOGacha = ({
       const imgPath = await generateGachaPng(result);
       let replyMsg = await bot.sendImageMessage(imgPath, message);
       if (!replyMsg.messageId) {
-        console.log('[ FGOGacha ] Unknown error @ sending gacha result');
+        console.log('[FGOGacha] Unknown error @ sending gacha result');
       }
       gachaCooldown.push(sender.id);
       setTimeout(() => {
