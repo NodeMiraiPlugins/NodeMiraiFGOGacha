@@ -26,6 +26,8 @@ const saveDb = () => {
  * @param { number } [config.cooldown] (ms, default: 60000) gacha cooldown
  * @param { boolean } [config.allowGroup] (default: true) allow gacha in group talking
  * @param { boolean } [config.allowPrivate] (default: false) allow gacha in private talking
+ * @param { boolean } [config.recall] (default: true) recall result or not
+ * @param { number } [config.recallDelay] (default: 30000) recall delay
  * @param { string } [config.prefix] (default: '') command prefix
  * @param { object } [config.hints] hint texts
  * @param { string } [config.hints.listPools] hint for 查询卡池
@@ -36,6 +38,8 @@ const FGOGacha = ({
   cooldown = 60000,
   allowGroup = true,
   allowPrivate = false,
+  recall = true,
+  recallDelay = 30000,
   prefix = '',
   hints: {
     listPools: listPools = '现在数据库里有这些卡池哦~',
@@ -46,6 +50,8 @@ const FGOGacha = ({
   } = {},
 }) => {
   const gachaCooldown = [];
+  if (recallDelay < 5000) recallDelay = 5000;
+  else if (recallDelay > 60000) recallDelay = 60000;
   /**
    * @method callback
    * @param { object } message message object
@@ -96,11 +102,19 @@ const FGOGacha = ({
       if (!poolId) return reply(poolNotSet + `发送"${prefix}设置卡池 编号"可以设置卡池`);
       const result = gacha(poolId, total);
       const imgPath = await generateGachaPng(result);
-      await bot.sendImageMessage(imgPath, message);
+      let replyMsg = await bot.sendImageMessage(imgPath, message);
+      if (!replyMsg.messageId) {
+        console.log('[ FGOGacha ] Unknown error @ sending gacha result');
+      }
       gachaCooldown.push(sender.id);
       setTimeout(() => {
         gachaCooldown.shift();
       }, cooldown);
+      if (recall) {
+        setTimeout(() => {
+          bot.recall(replyMsg);
+        }, recallDelay);
+      }
       return fs.unlinkSync(imgPath);
     }
   };
