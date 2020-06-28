@@ -12,6 +12,9 @@ const getGachaIcon = (conf = {
   let img = '';
   if (type === 'svt') img = icons.svtIcons[id - 1];
   else img = icons.cftIcons[id - 1];
+  if (!img) {
+    console.error('Icon path not found', conf);
+  }
   return path.resolve(__dirname, '../statics/icons', img.replace('/images', '').replace(/\//g, '_'));
 };
 

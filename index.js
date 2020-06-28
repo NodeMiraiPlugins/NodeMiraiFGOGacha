@@ -42,6 +42,7 @@ const FGOGacha = ({
     invalidPoolId: invalidPoolId = '卡池编号不正确哦~',
     setPoolSuccess: setPoolSuccess = '设置卡池成功',
     poolNotSet: poolNotSet = `尚未设置卡池，无法进行十连`,
+    inCooldown: inCooldown = `召唤冷却中，每${cooldown / 1000}秒可进行一次召唤`,
   } = {},
 }) => {
   const gachaCooldown = [];
@@ -89,6 +90,7 @@ const FGOGacha = ({
       return reply(setPoolSuccess);
     }
     if (msg === prefix + '十连召唤' || msg === prefix + '十一连召唤') {
+      if (gachaCooldown.includes(sender.id)) return reply(inCooldown);
       const total = msg === prefix + '十一连召唤' ? 11 : 10;
       const poolId = group ? db.group[group.id].selectedPool : db.sender[sender.id].selectedPool;
       if (!poolId) return reply(poolNotSet + `发送"${prefix}设置卡池 编号"可以设置卡池`);
