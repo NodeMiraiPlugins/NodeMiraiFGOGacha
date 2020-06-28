@@ -3,9 +3,11 @@ const sharp = require('sharp');
 const getIcon = require('./getGachaIcon');
 
 const tenPosition = require('../config/tenPosition.json');
+const elevenPosition = require('../config/elevenPosition.json');
 
 const generateGacha = async result => {
   if (!result || result.length === 0) throw new Error('Invalid result');
+  const position = result.length > 10 ? elevenPosition : tenPosition;
   const dist = path.resolve(__dirname, `../statics/gacha/${Date.now()}.png`);
   const compositeGroup = [{
     input: await sharp(path.resolve(__dirname, '../statics/bg-mc-icon.png')).toBuffer(),
@@ -18,8 +20,8 @@ const generateGacha = async result => {
     const iconPath = getIcon(res);
     compositeGroup.push({
       input: await sharp(iconPath).resize(132, 144).toBuffer(),
-      left: tenPosition[index].left || 0,
-      top: tenPosition[index].top || 0,
+      left: position[index].left || 0,
+      top: position[index].top || 0,
     });
   }
   await sharp({
