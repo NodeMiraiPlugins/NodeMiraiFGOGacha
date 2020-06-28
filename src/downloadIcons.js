@@ -21,8 +21,8 @@ const downloadIcons = async (log = false, overwrite = false) => {
     for (let ico of icons[key]) {
       const src = `https://fgo.wiki${encodeURI(ico)}`;
       const dist = path.resolve(__dirname, '../statics/icons', ico.replace('/images', '').replace(/\//g, '_'));
-      await download(src, dist, false);
-      bar.tick();
+      await download(src, dist, overwrite);
+      log && bar.tick();
     }
   }
 };

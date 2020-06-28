@@ -28,8 +28,10 @@ const init = async (log = false, overwrite = false) => {
   await download(mooncellBackgroundUrl, mooncellBackgroundPath, overwrite);
   info(`Downloaded bg-mc-icon.png`);
   await getGachaPools(info);
-  await downloadIcons(info, overwrite);
+  await downloadIcons(log, overwrite);
   info(`Downloaded resources`);
+  fs.writeFileSync(path.resolve(__dirname, '.init'), '');
+  console.log('[FGOGacha] Updated pools');
 };
 
 module.exports = init;
