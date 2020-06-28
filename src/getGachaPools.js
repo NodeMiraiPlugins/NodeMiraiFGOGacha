@@ -64,5 +64,3 @@ const getGachaPools = async (logger = () => {}) => {
 };
 
 module.exports = getGachaPools;
-
-getGachaPools();
