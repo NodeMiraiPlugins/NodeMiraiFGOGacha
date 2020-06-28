@@ -34,8 +34,8 @@ bot.use(FGOGacha({
     listPools: `现在数据库里有这些卡池哦~`,
     invalidPoolId: `卡池编号不正确哦~`,
     setPoolSuccess: `设置卡池成功`,
-    poolNotSet: `尚未设置卡池，无法进行十连`,
-    inCooldown: `召唤冷却中，每${cooldown / 1000}秒可进行一次召唤`,
+    poolNotSet: `尚未设置卡池，无法进行召唤`,
+    inCooldown: `召唤冷却中，每60秒可进行一次召唤`,
   },
 }));
 

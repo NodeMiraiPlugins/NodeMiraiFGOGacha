@@ -57,7 +57,7 @@ const FGOGacha = ({
     listPools: listPools = '现在数据库里有这些卡池哦~',
     invalidPoolId: invalidPoolId = '卡池编号不正确哦~',
     setPoolSuccess: setPoolSuccess = '设置卡池成功',
-    poolNotSet: poolNotSet = `尚未设置卡池，无法进行十连`,
+    poolNotSet: poolNotSet = `尚未设置卡池，无法进行召唤`,
     inCooldown: inCooldown = `召唤冷却中，每${cooldown / 1000}秒可进行一次召唤`,
   } = {},
 } = {}) => {
