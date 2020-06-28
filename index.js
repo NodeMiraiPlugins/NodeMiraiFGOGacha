@@ -60,7 +60,7 @@ const FGOGacha = ({
     poolNotSet: poolNotSet = `尚未设置卡池，无法进行十连`,
     inCooldown: inCooldown = `召唤冷却中，每${cooldown / 1000}秒可进行一次召唤`,
   } = {},
-}) => {
+} = {}) => {
   const gachaCooldown = [];
   if (recallDelay < 5000) recallDelay = 5000;
   else if (recallDelay > 60000) recallDelay = 60000;
