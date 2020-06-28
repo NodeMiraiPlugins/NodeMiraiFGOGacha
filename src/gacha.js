@@ -26,6 +26,7 @@ const gachaOne = pool => {
 
 const gacha = (poolId, total = 10) => {
   const pools = JSON.parse(fs.readFileSync(poolDir));
+  gacha.poolCounts = pools.length;
   const pool = pools[poolId - 1];
   if (!pool) return [];
   let result = [];
@@ -59,5 +60,6 @@ const gacha = (poolId, total = 10) => {
   result = shuffle(result);
   return result;
 };
+gacha.poolCounts = JSON.parse(fs.readFileSync(poolDir)).length;
 
 module.exports = gacha;
