@@ -110,7 +110,7 @@ const FGOGacha = ({
       setTimeout(() => {
         gachaCooldown.shift();
       }, cooldown);
-      if (recall) {
+      if (recall && replyMsg.messageId) {
         setTimeout(() => {
           bot.recall(replyMsg);
         }, recallDelay);
