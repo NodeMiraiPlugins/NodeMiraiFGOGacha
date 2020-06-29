@@ -130,12 +130,12 @@ const FGOGacha = ({
       const poolId = group ? db.group[group.id].selectedPool : db.sender[sender.id].selectedPool;
       if (!poolId) return reply(poolNotSet + `发送"${prefix}设置卡池 编号"可以设置卡池`);
       const result = gacha(poolId, total);
+      gachaCooldown.push(sender.id);
       const imgPath = await generateGachaPng(result);
       let replyMsg = await bot.sendImageMessage(imgPath, message);
       if (!replyMsg.messageId) {
         console.log('[FGOGacha] Unknown error @ sending gacha result');
       }
-      gachaCooldown.push(sender.id);
       setTimeout(() => {
         gachaCooldown.shift();
       }, cooldown);
