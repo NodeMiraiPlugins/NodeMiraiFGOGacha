@@ -10,7 +10,7 @@ const download = require('./download');
  * @param { function } logger
  */
 const downloadIcons = async (log = false, overwrite = false) => {
-  const icons = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../statics/icons.json')));
+  const icons = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), '.fgo-gacha/statics/icons.json')));
   for (let key in icons) {
     const bar = new Progress(`[Init] Downloading ${key} :bar [:current/:total]`, {
       total: icons[key].length,
@@ -20,7 +20,7 @@ const downloadIcons = async (log = false, overwrite = false) => {
     });
     for (let ico of icons[key]) {
       const src = `https://fgo.wiki${encodeURI(ico)}`;
-      const dist = path.resolve(__dirname, '../statics/icons', ico.replace('/images', '').replace(/\//g, '_'));
+      const dist = path.resolve(process.cwd(), '.fgo-gacha/statics/icons', ico.replace('/images', '').replace(/\//g, '_'));
       await download(src, dist, overwrite);
       log && bar.tick();
     }

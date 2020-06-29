@@ -6,11 +6,12 @@ const getGachaPools = require('./src/getGachaPools');
 const downloadIcons = require('./src/downloadIcons');
 const gacha = require('./src/gacha');
 
-const baseDir = path.resolve(__dirname, './statics');
-const dbPath = path.resolve(__dirname, './statics/db.json');
+const tmpDir = path.resolve(process.cwd(), '.fgo-gacha');
+const baseDir = path.resolve(process.cwd(), '.fgo-gacha/statics');
+const dbPath = path.resolve(process.cwd(), '.fgo-gacha/statics/db.json');
 
 const mooncellBackgroundUrl = 'https://fgo.wiki/images/bg/bg-mc-icon.png';
-const mooncellBackgroundPath = path.resolve(__dirname, './statics/bg-mc-icon.png');
+const mooncellBackgroundPath = path.resolve(process.cwd(), '.fgo-gacha/statics/bg-mc-icon.png');
 
 /**
  * @method init
@@ -21,6 +22,10 @@ const mooncellBackgroundPath = path.resolve(__dirname, './statics/bg-mc-icon.png
 const init = async (log = false, overwrite = false) => {
   const info = (...t) => log && console.log(`[init]`, ...t);
   info('Ready to init');
+  if (!fs.existsSync(tmpDir)) {
+    fs.mkdirSync(tmpDir);
+    info('Create .fgo-gacha/');
+  }
   if (!fs.existsSync(baseDir)) {
     fs.mkdirSync(baseDir);
     info('Created statics/');
@@ -42,7 +47,7 @@ const init = async (log = false, overwrite = false) => {
   await getGachaPools(info);
   await downloadIcons(log, overwrite);
   info(`Downloaded resources`);
-  fs.writeFileSync(path.resolve(__dirname, '.init'), '');
+  fs.writeFileSync(path.resolve(process.cwd(), '.fgo-gacha/.init'), '');
   console.log('[FGOGacha] Updated pools');
   gacha(1);
 };

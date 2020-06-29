@@ -8,12 +8,12 @@ const init = require('./init');
 const gacha = require('./src/gacha');
 const generateGachaPng = require('./src/generateGachaPng');
 
-if (!fs.existsSync(path.resolve(__dirname, '.init'))) {
+if (!fs.existsSync(path.resolve(process.cwd(), '.fgo-gacha/.init'))) {
   init(true, true);
 }
 
-const dbPath = path.resolve(__dirname, './statics/db.json');
-const poolsPath = path.resolve(__dirname, './statics/pools.json');
+const dbPath = path.resolve(process.cwd(), '.fgo-gacha/statics/db.json');
+const poolsPath = path.resolve(process.cwd(), '.fgo-gacha/statics/pools.json');
 const db = JSON.parse(fs.readFileSync(dbPath));
 const saveDb = () => {
   fs.writeFileSync(dbPath, JSON.stringify(db));

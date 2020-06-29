@@ -28,7 +28,7 @@ const getGachaPools = async (logger = () => {}) => {
       pools.push(pool);
     }
   });
-  fs.writeFileSync(path.resolve(__dirname, '../statics/pools.json'), JSON.stringify(pools, null, 2));
+  fs.writeFileSync(path.resolve(process.cwd(), '.fgo-gacha/statics/pools.json'), JSON.stringify(pools, null, 2));
   logger('Saved pools.json');
   logger(`Downloading pools for gacha.json and icons.json`);
   const icons = {
@@ -59,9 +59,9 @@ const getGachaPools = async (logger = () => {}) => {
       icons.cftIcons = JSON.parse(cftIconList);
     }
   }
-  fs.writeFileSync(path.resolve(__dirname, '../statics/gacha.json'), JSON.stringify(gachaData, null, 2));
+  fs.writeFileSync(path.resolve(process.cwd(), '.fgo-gacha/statics/gacha.json'), JSON.stringify(gachaData, null, 2));
   logger('Saved gacha.json');
-  fs.writeFileSync(path.resolve(__dirname, '../statics/icons.json'), JSON.stringify(icons, null, 2));
+  fs.writeFileSync(path.resolve(process.cwd(), '.fgo-gacha/statics/icons.json'), JSON.stringify(icons, null, 2));
   logger('Saved icons.json');
 };
 

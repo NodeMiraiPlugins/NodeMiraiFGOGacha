@@ -4,7 +4,7 @@ const path = require('path');
 const random = require('./random');
 const shuffle = require('./shuffle');
 
-const poolDir = path.resolve(__dirname, '../statics/gacha.json');
+const poolDir = path.resolve(process.cwd(), '.fgo-gacha/statics/gacha.json');
 
 const gachaOne = pool => {
   const rand = random(0, 10000);

@@ -8,9 +8,9 @@ const elevenPosition = require('../config/elevenPosition.json');
 const generateGacha = async result => {
   if (!result || result.length === 0) throw new Error('Invalid result');
   const position = result.length > 10 ? elevenPosition : tenPosition;
-  const dist = path.resolve(__dirname, `../statics/gacha/${Date.now()}.png`);
+  const dist = path.resolve(process.cwd(), `.fgo-gacha/statics/gacha/${Date.now()}.png`);
   const compositeGroup = [{
-    input: await sharp(path.resolve(__dirname, '../statics/bg-mc-icon.png')).toBuffer(),
+    input: await sharp(path.resolve(process.cwd(), '.fgo-gacha/statics/bg-mc-icon.png')).toBuffer(),
     left: 0,
     top: 0,
     tile: true,
