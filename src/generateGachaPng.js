@@ -15,6 +15,42 @@ const generateGacha = async result => {
     top: 0,
     tile: true,
   }];
+  if (result.length > 11) {
+    const filtered = result.filter(i => i.star >= 4).sort((a, b) => {
+      if (a.type === 'svt') {
+        if (b.type === 'svt') {
+          if (a.star === b.star) return b.id - a.id;
+          return b.star - a.star;
+        }
+        return -1;
+      }
+      if (a.type === 'ce' && b.type === 'ce') {
+        if (a.star === b.star) return b.id - a.id;
+        return b.star - a.star;
+      }
+      return 1;
+    });
+    for (let index in filtered) {
+      const res = filtered[index];
+      const iconPath = getIcon(res);
+      const top = 12 + Math.floor(parseInt(index) / 6) * 156;
+      const left = 12 + parseInt(index) % 6 * 144;
+      compositeGroup.push({
+        input: await sharp(iconPath).resize(132, 144).toBuffer(),
+        left,
+        top,
+      });
+    }
+    await sharp({
+      create: {
+        width: 876,
+        height: (Math.floor(filtered.length / 6) + 1) * 156 + 12,
+        channels: 4,
+        background: '#fff',
+      },
+    }).composite(compositeGroup).toFile(dist);
+    return dist;
+  }
   for (let index in result) {
     const res = result[index];
     const iconPath = getIcon(res);

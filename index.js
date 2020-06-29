@@ -115,9 +115,9 @@ const FGOGacha = ({
       saveDb();
       return reply(setPoolSuccess);
     }
-    if (msg === prefix + '十连召唤' || msg === prefix + '十一连召唤') {
+    if (msg === prefix + '十连召唤' || msg === prefix + '十一连召唤' || msg === prefix + '百连召唤') {
       if (gachaCooldown.includes(sender.id)) return reply(inCooldown);
-      const total = msg === prefix + '十一连召唤' ? 11 : 10;
+      const total = msg === prefix + '百连召唤' ? 100 : (prefix + '十一连召唤' ? 11 : 10);
       const poolId = group ? db.group[group.id].selectedPool : db.sender[sender.id].selectedPool;
       if (!poolId) return reply(poolNotSet + `发送"${prefix}设置卡池 编号"可以设置卡池`);
       const result = gacha(poolId, total);
