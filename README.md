@@ -32,7 +32,7 @@ bot.use(FGOGacha({
   qqWhitelistMode: false,    // qq 白名单开关
   qqBlacklist: [],           // qq 黑名单
   qqWhitelist: [],           // qq 白名单
-  admin: [],                 // 管理员 qq 名单
+  superAdmin: [],            // 超级管理员 qq 名单
   hints: {                   // 一些可配置的提示
     listPools: `现在数据库里有这些卡池哦~`,
     invalidPoolId: `卡池编号不正确哦~`,
@@ -67,6 +67,6 @@ FGOGacha.init();
 
 - `node-mirai-fgo-gacha` 采用的是 [这个页面](https://fgo.wiki/w/%E6%8A%BD%E5%8D%A1%E6%A8%A1%E6%8B%9F%E5%99%A8) 所展示的卡池(不含福袋)
 
-- `node-mirai-fgo-gacha` 会在初次使用时自动初始化卡池, 下载资源文件(总计`10MB+`), 此后必须通过管理员发送`更新`指令或 `FGOGacha.update()` 方法手动更新, 如果已有的资源出现错误, 可以通过 `FGOGacha.init()` 方法重新初始化
+- `node-mirai-fgo-gacha` 会在初次使用时自动初始化卡池, 下载资源文件(总计`10MB+`), 这些文件保存在工作目录下的`.fgo-gacha/`文件夹内，此后必须通过超级管理员发送`更新`指令或 `FGOGacha.update()` 方法手动更新, 如果已有的资源出现错误, 可以通过 `FGOGacha.init()` 方法重新初始化
 
 - 随机和保底机制纯属猜测, 与官方<del>不一定一致</del>一定不一致, 因此结果没有参考价值, 仅供娱乐, 请勿当真

@@ -35,7 +35,7 @@ const saveDb = () => {
  * @param { boolean } [config.qqWhitelistMode] use whitelist mode for specific qq
  * @param { array } [config.qqBlacklist] blacklist qqs
  * @param { array } [config.qqWhitelist] whitelist qqs
- * @param { array } [config.admin] admin list
+ * @param { array } [config.superAdmin] super admin list
  * @param { object } [config.hints] hint texts
  * @param { string } [config.hints.listPools] hint for 查询卡池
  * @param { string } [config.hints.invalidPoolId] hint for 设置卡池 getting invalid poolid
@@ -54,7 +54,7 @@ const FGOGacha = ({
   qqWhitelistMode = false,
   qqBlacklist = [],
   qqWhitelist = [],
-  admin = [],
+  superAdmin = [],
   hints: {
     listPools: listPools = '现在数据库里有这些卡池哦~',
     invalidPoolId: invalidPoolId = '卡池编号不正确哦~',
@@ -98,7 +98,7 @@ const FGOGacha = ({
     msg = msg.trim();
     if (!msg.startsWith(prefix)) return;
     if (msg === prefix + '更新') {
-      if (admin.includes(sender.id)) {
+      if (superAdmin.includes(sender.id)) {
         reply(`开始更新卡池信息`);
         await init().then(() => reply(`更新成功`))
                     .catch(() => reply(`更新出错，请检查log`));
