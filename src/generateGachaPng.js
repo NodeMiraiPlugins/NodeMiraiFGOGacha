@@ -44,7 +44,7 @@ const generateGacha = async result => {
     await sharp({
       create: {
         width: 876,
-        height: (Math.floor(filtered.length / 6) + 1) * 156 + 12,
+        height: (Math.floor((filtered.length - 1) / 6) + 1) * 156 + 12,
         channels: 4,
         background: '#fff',
       },
