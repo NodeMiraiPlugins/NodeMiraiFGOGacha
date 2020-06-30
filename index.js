@@ -37,9 +37,13 @@ const saveDb = () => {
  * @param { array } [config.qqWhitelist] whitelist qqs
  * @param { array } [config.superAdmin] super admin list
  * @param { object } [config.hints] hint texts
+ * @param { string } [config.hints.gacha] hint for 召唤结果
  * @param { string } [config.hints.listPools] hint for 查询卡池
  * @param { string } [config.hints.invalidPoolId] hint for 设置卡池 getting invalid poolid
  * @param { string } [config.hints.setPoolSuccess] hint for 设置卡池 success
+ * @param { string } [config.hints.poolNotSet]
+ * @param { string } [config.hints.inCooldown]
+ * @param { string } [config.hints.permissionError]
  */
 const FGOGacha = ({
   cooldown = 60000,
