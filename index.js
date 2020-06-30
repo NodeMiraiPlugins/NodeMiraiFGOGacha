@@ -56,6 +56,7 @@ const FGOGacha = ({
   qqWhitelist = [],
   superAdmin = [],
   hints: {
+    gacha: gachaHint = '本次召唤结果',
     listPools: listPools = '现在数据库里有这些卡池哦~',
     invalidPoolId: invalidPoolId = '卡池编号不正确哦~',
     setPoolSuccess: setPoolSuccess = '设置卡池成功',
@@ -138,7 +139,7 @@ const FGOGacha = ({
       const imgPath = await generateGachaPng(result);
       // let replyMsg = await bot.sendImageMessage(imgPath, message);
       const img = await bot.uploadImage(imgPath, message);
-      const replyMsg = await reply([At(sender.id), Image(img)]);
+      const replyMsg = await reply([At(sender.id), Plain(gachaHint + '\n'), Image(img)]);
       if (!replyMsg.messageId) {
         console.log('[FGOGacha] Unknown error @ sending gacha result');
       }
