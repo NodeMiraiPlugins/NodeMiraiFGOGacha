@@ -34,11 +34,13 @@ bot.use(FGOGacha({
   qqWhitelist: [],           // qq 白名单
   superAdmin: [],            // 超级管理员 qq 名单
   hints: {                   // 一些可配置的提示
+    gacha: `本次召唤结果`,
     listPools: `现在数据库里有这些卡池哦~`,
     invalidPoolId: `卡池编号不正确哦~`,
     setPoolSuccess: `设置卡池成功`,
     poolNotSet: `尚未设置卡池，无法进行召唤`,
     inCooldown: `召唤冷却中，每60秒可进行一次召唤`,
+    permissionError: `权限不足`,
   },
 }));
 
