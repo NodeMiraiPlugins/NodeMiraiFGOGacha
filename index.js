@@ -109,7 +109,7 @@ const FGOGacha = ({
       return reply(
         listPools + '\n' +
         pools.map((i, index) => `${index + 1}. ${i.title}`).join('\n') +
-        '\n发送“设置卡池 编号”可以设置召唤的卡池'
+        `\n发送“${prefix}设置卡池 编号”可以设置召唤的卡池`
       );
     }
     if (msg.startsWith(prefix + '设置卡池')) {
