@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const Mirai = require('node-mirai-sdk');
-const { Image, Plain } = Mirai.MessageComponent;
+const { At, Image, Plain } = Mirai.MessageComponent;
 
 const init = require('./init');
 const gacha = require('./src/gacha');
@@ -63,7 +63,7 @@ const FGOGacha = ({
     inCooldown: inCooldown = `召唤冷却中，每${cooldown / 1000}秒可进行一次召唤`,
   } = {},
 } = {}) => {
-  const gachaCooldown = [];
+  const gachaCooldown = {};
   if (recallDelay < 5000) recallDelay = 5000;
   else if (recallDelay > 60000) recallDelay = 60000;
   /**
@@ -88,6 +88,7 @@ const FGOGacha = ({
     if (group && !allowGroup) return;
     if (group) {
       if (!db.group[group.id]) db.group[group.id] = {};
+      if (!gachaCooldown[group.id]) gachaCooldown[group.id] = [];
     } else {
       if (!db.sender[sender.id]) db.sender[sender.id] = {};
     }
@@ -125,24 +126,28 @@ const FGOGacha = ({
       return reply(setPoolSuccess);
     }
     if (msg === prefix + '十连召唤' || msg === prefix + '十一连召唤' || msg === prefix + '百连召唤') {
-      if (gachaCooldown.includes(sender.id)) return reply(inCooldown);
+      if (group && gachaCooldown[group.id].includes(sender.id)) return reply(inCooldown);
       const total = msg === prefix + '百连召唤' ? 100 : (prefix + '十一连召唤' ? 11 : 10);
       const poolId = group ? db.group[group.id].selectedPool : db.sender[sender.id].selectedPool;
       if (!poolId) return reply(poolNotSet + `发送"${prefix}设置卡池 编号"可以设置卡池`);
       const result = gacha(poolId, total);
-      gachaCooldown.push(sender.id);
+      if (group) gachaCooldown[group.id].push(sender.id);
       const imgPath = await generateGachaPng(result);
-      let replyMsg = await bot.sendImageMessage(imgPath, message);
+      // let replyMsg = await bot.sendImageMessage(imgPath, message);
+      const img = await bot.uploadImage(imgPath, message);
+      const replyMsg = await reply([At(sender.id), Image(img)]);
       if (!replyMsg.messageId) {
         console.log('[FGOGacha] Unknown error @ sending gacha result');
       }
-      setTimeout(() => {
-        gachaCooldown.shift();
-      }, cooldown);
-      if (recall && replyMsg.messageId) {
+      if (group) {
         setTimeout(() => {
-          bot.recall(replyMsg);
-        }, recallDelay);
+          gachaCooldown[group.id].shift();
+        }, cooldown);
+        if (recall && replyMsg.messageId) {
+          setTimeout(() => {
+            bot.recall(replyMsg);
+          }, recallDelay);
+        }
       }
       return fs.unlinkSync(imgPath);
     }
