@@ -61,11 +61,13 @@ const FGOGacha = ({
     setPoolSuccess: setPoolSuccess = '设置卡池成功',
     poolNotSet: poolNotSet = `尚未设置卡池，无法进行召唤`,
     inCooldown: inCooldown = `召唤冷却中，每${cooldown / 1000}秒可进行一次召唤`,
+    permissionError: permissionError = '权限不足',
   } = {},
 } = {}) => {
   const gachaCooldown = {};
   if (recallDelay < 5000) recallDelay = 5000;
   else if (recallDelay > 60000) recallDelay = 60000;
+  const isAdmin = sender => sender.permission === 'ADMINISTRATOR' || sender.permission === 'OWNER' || superAdmin.includes(sender.id);
   /**
    * @method callback
    * @param { object } message message object
@@ -103,7 +105,7 @@ const FGOGacha = ({
         reply(`开始更新卡池信息`);
         await init().then(() => reply(`更新成功`))
                     .catch(() => reply(`更新出错，请检查log`));
-      } else reply(`权限不足`);
+      } else reply(permissionError);
     }
     if (msg === prefix + '查询卡池') {
       const pools = JSON.parse(fs.readFileSync(poolsPath));
@@ -114,6 +116,7 @@ const FGOGacha = ({
       );
     }
     if (msg.startsWith(prefix + '设置卡池')) {
+      if (!isAdmin(sender)) return reply(permissionError);
       const poolId = parseInt(msg.substr(prefix.length + 4));
       if (isNaN(poolId)) return reply(invalidPoolId + `发送"${prefix}查询卡池"可以查询已有卡池`);
       if (poolId > gacha.poolCounts || poolId < 1) return reply(invalidPoolId + `发送"${prefix}查询卡池"可以查询已有卡池`);
