@@ -26,7 +26,7 @@ bot.use(FGOGacha({
   recall: true,              // 在指定时间后撤回扭蛋图片以防刷屏
   recallDelay: 30000,        // 指定撤回延迟，时间 5000 - 60000
   prefix: ``,                // 指令前缀，可用于避免误触发
-  groupWhitelistMode: false, // 群聊白名单模式快关
+  groupWhitelistMode: false, // 群聊白名单模式开关
   groupBlacklist: [],        // 群聊黑名单
   groupWhitelist: [],        // 群聊白名单
   qqWhitelistMode: false,    // qq 白名单开关
