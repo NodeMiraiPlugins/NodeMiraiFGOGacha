@@ -38,7 +38,7 @@ const getGachaPools = async (logger = () => {}) => {
   for (let pool of pools) {
     const gacha = [];
     const { data } = await axios.get(pool.href);
-    const rawStrList = data.match(/raw_str_list\s=\s\['(.*)'\]/)[1].split('\\n');
+    const rawStrList = data.match(/raw_str_list\s?=\s?\['(.*)'\]/)[1].split('\\n');
     rawStrList.shift();
     rawStrList.forEach(line => {
       const [ type, star, weight, display, ids] = line.split('\t');
@@ -53,9 +53,9 @@ const getGachaPools = async (logger = () => {}) => {
     });
     gachaData.push(gacha);
     if (icons.svtIcons.length + icons.cftIcons.length === 0) {
-      const svtIconList = data.match(/svt_icons\s=\s(\[.*\])/)[1];
+      const svtIconList = data.match(/svt_icons\s?=\s?(\[.*?\])/)[1];
       icons.svtIcons = JSON.parse(svtIconList);
-      const cftIconList = data.match(/cft_icons\s=\s(\[.*\])/)[1];
+      const cftIconList = data.match(/cft_icons\s?=\s?(\[.*?\])/)[1];
       icons.cftIcons = JSON.parse(cftIconList);
     }
   }
